@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { StyledInputBase, SearchIconWrapper, Search } from './_custom';
+import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import { CustomizedInputBase } from './_custom/CustomSearchBox';
 
 
 const SearchAppBar = (props: any) => {
-    const { searchTxt, setSearchTxt, handleSubmit } = props;
+    const { searchTxt, setSearchTxt, handleSubmit, logoutAction } = props;
+
+    const henadleLogout = () => {
+        logoutAction();
+        window.location.href = "/login";
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -21,6 +24,7 @@ const SearchAppBar = (props: any) => {
                         Movie Tracker
                     </Typography>
                     <CustomizedInputBase searchTxt={searchTxt} setSearchTxt={setSearchTxt} handleSubmit={handleSubmit} />
+                    <Button size="small" variant="outlined" sx={{ ml: 2 }} color="warning" onClick={henadleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </Box>

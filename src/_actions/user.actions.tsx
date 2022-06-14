@@ -48,7 +48,7 @@ const register = (user: UserCreateDef) => {
                         dispatch(alertActions.error("Invalid password"));
                     }
                     if (error.response.data.hasOwnProperty("email")) {
-                        dispatch(alertActions.error("Invalid email"));
+                        dispatch(alertActions.error(error.response.data.email));
                     }
                     if (error.response.data.hasOwnProperty("detail")) {
                         dispatch(alertActions.error(error.response.data.detail));
@@ -64,18 +64,8 @@ const register = (user: UserCreateDef) => {
 }
 
 
-const getUserList = () => {
-    return async (dispatch: any) => {
-        return await userService.getUserList();
-    };
-
-    function success(data: any) { return { type: userConstants.USER_GETALL_SUCCESS, data } }
-    function failure(error: any) { return { type: userConstants.USER_GETALL_FAILURE, error } }
-}
-
 export const userActions = {
     login,
     logout,
-    register,
-    getUserList
+    register
 };

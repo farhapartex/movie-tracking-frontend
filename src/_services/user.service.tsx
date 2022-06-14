@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl, baseHeader, authHeader } from "../config/config";
+import { baseUrl, baseHeader } from "../config/config";
 import { UserCreateDef } from "../pages/auth/interface";
 
 const login = (email: string, password: string) => {
@@ -19,17 +19,12 @@ const register = (user: UserCreateDef) => {
 
 const logout = () => {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    localStorage.removeItem('_mv_user');
 }
 
-const getUserList = async () => {
-    const url = `${baseUrl}api/v1/users/`;
-    return await axios.get(url, { headers: authHeader() });
-}
 
 export const userService = {
     login,
     logout,
     register,
-    getUserList
 };

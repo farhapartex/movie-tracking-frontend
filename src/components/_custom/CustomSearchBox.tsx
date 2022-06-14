@@ -23,7 +23,7 @@ const CustomizedInputBase = (props: any) => {
         >
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Google Maps"
+                placeholder="Search movie by title"
                 inputProps={{ 'aria-label': 'search movie information' }}
                 value={searchTxt}
                 onChange={(e) => setSearchTxt(e.target.value)}

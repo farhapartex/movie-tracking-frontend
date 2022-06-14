@@ -16,7 +16,7 @@ interface UserAuth {
 }
 
 export const authHeader = () => {
-    let user: UserAuth | null = JSON.parse(localStorage.getItem('user') || '{}');
+    let user: UserAuth | null = JSON.parse(localStorage.getItem('_mv_user') || '{}');
     let token: string | null = null;
     if (user) {
         token = user.access;

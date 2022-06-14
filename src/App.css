@@ -1,0 +1,5 @@
+.Mui-disabled {
+    color: #fff !important;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.12);
+}

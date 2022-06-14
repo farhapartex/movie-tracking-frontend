@@ -170,7 +170,6 @@ const SignUp = (props: any) => {
 
 
 function mapState(state: any) {
-    console.log(state);
     const { alert } = state;
     return { alert };
 }
