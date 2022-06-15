@@ -1,5 +1,6 @@
 export interface UserCreateDef {
+    first_name: string,
+    last_name: string,
     email: string,
-    rapid_api_key: string,
     password: string
 }

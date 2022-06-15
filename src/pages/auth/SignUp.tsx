@@ -17,10 +17,12 @@ const theme = createTheme();
 
 const SignUp = (props: any) => {
     const { alert } = props;
-
-    const [rapidApiKey, setRapidApiKey] = React.useState("");
-    const [rapidApiKeyError, setRapidApiKeyError] = React.useState(false);
-    const [rapidApiKeyErrorText, setRapidApiKeyErrorText] = React.useState("");
+    const [firstName, setFirstName] = React.useState("");
+    const [firstNameError, setFirstNameError] = React.useState(false);
+    const [firstNameErrorText, setFirstNameErrorText] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
+    const [lastNameError, setLastNameError] = React.useState(false);
+    const [lastNameErrorText, setLastNameErrorText] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorText, setPasswordErrorText] = React.useState("");
@@ -31,15 +33,16 @@ const SignUp = (props: any) => {
     React.useEffect(() => {
         if (alert.type === "alert-success") {
             removeAllErrorText();
-            setRapidApiKey("");
             setPassword("");
             setEmail("");
         }
     }, [alert]);
 
     const removeAllErrorText = () => {
-        setRapidApiKeyError(false);
-        setRapidApiKeyErrorText('');
+        setFirstNameError(false);
+        setFirstNameErrorText("")
+        setLastNameError(false)
+        setLastNameErrorText("")
         setPasswordError(false);
         setPasswordErrorText('');
         setEmailError(false);
@@ -52,17 +55,23 @@ const SignUp = (props: any) => {
         removeAllErrorText();
         let hasValidationError = false;
 
+        if (!firstName) {
+            setFirstNameError(true);
+            setFirstNameErrorText('Please provide your first name');
+            hasValidationError = true;
+        }
+        if (!lastName) {
+            setLastNameError(true);
+            setLastNameErrorText('Please provide your last name');
+            hasValidationError = true;
+        }
+
         if (!email || !EMAIL_ADDRESS_REGEX.test(email)) {
             setEmailError(true);
             setEmailErrorText('Please enter valid email address');
             hasValidationError = true;
         }
 
-        if (!rapidApiKey) {
-            setRapidApiKeyError(true);
-            setRapidApiKeyErrorText('Please provide Rapid API Key');
-            hasValidationError = true;
-        }
         if (!password) {
             setPasswordError(true);
             setPasswordErrorText('Please provide a strong password');
@@ -74,7 +83,7 @@ const SignUp = (props: any) => {
         }
 
 
-        let res = props.register({ email: email, rapid_api_key: rapidApiKey, password: password });
+        let res = props.register({ first_name: firstName, last_name: lastName, email: email, password: password });
     };
 
     return (
@@ -98,6 +107,35 @@ const SignUp = (props: any) => {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="given-name"
+                                    name="firstName"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    label="First Name"
+                                    autoFocus
+                                    onChange={event => { setFirstName(event.target.value) }}
+                                    error={firstNameError}
+                                    helperText={firstNameErrorText}
+                                    value={firstName}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    label="Last Name"
+                                    name="lastName"
+                                    autoComplete="family-name"
+                                    onChange={event => { setLastName(event.target.value) }}
+                                    error={lastNameError}
+                                    helperText={lastNameErrorText}
+                                    value={lastName}
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -110,20 +148,6 @@ const SignUp = (props: any) => {
                                     error={emailError}
                                     helperText={emailErrorText}
                                     value={email}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="rapidAPIKey"
-                                    label="Rapid API Key"
-                                    name="rapidApiKey"
-                                    autoComplete="email"
-                                    onChange={event => { setRapidApiKey(event.target.value) }}
-                                    error={rapidApiKeyError}
-                                    helperText={rapidApiKeyErrorText}
-                                    value={rapidApiKey}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -153,11 +177,6 @@ const SignUp = (props: any) => {
                             <Grid item>
                                 <Link href="/login" variant="body2">
                                     Already have an account? Sign in
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link component="a" target={"blank"} href="https://rapidapi.com/" variant="body2" >
-                                    Click to get your Rapid API Key
                                 </Link>
                             </Grid>
                         </Grid>

@@ -7,20 +7,17 @@ import BaseModal from "../_custom/BaseModal";
 import BaseAlert from "../_custom/Alert";
 import { userActions } from "../../_actions/user.actions";
 
-const HomePage = (props: any) => {
-    const [favoriteList, setFavoriteList] = React.useState<MovieDefi[]>([]);
-    const [watchedList, setWatchedList] = React.useState<MovieDefi[]>([]);
+
+interface HomePageProps {
+    favoriteList: MovieDefi[],
+    watchedList: MovieDefi[],
+}
+const HomePage: React.FC<HomePageProps> = (props) => {
+    const { favoriteList, watchedList } = props;
+
     const [movie, setMovie] = React.useState<MovieDefi | null>(null);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-    React.useEffect(() => {
-        fetchMovieData();
-    }, []);
-
-    const henadleLogout = () => {
-        props.logout();
-        window.location.href = "/login";
-    }
 
 
     const handleCloseModal = () => {
@@ -32,33 +29,15 @@ const HomePage = (props: any) => {
         setIsOpen(true);
     }
 
-    const fetchMovieData = () => {
-        props.getMovieList("favorite").then((response: any) => {
-            setFavoriteList(response.data);
-
-        }).catch((error: any) => {
-            if (error.response.status === 401) {
-                henadleLogout();
-            }
-            setFavoriteList([]);
-        });
-
-        props.getMovieList("watched").then((response: any) => {
-            setWatchedList(response.data);
-
-        }).catch((error: any) => {
-            setWatchedList([]);
-        });
-    }
 
     const renderMovieList = (items: MovieDefi[], listType: string) => {
         let itemNode = items.map((item, key) => {
             return (
-                <Grid item xs={3} md={2} key={key}>
+                <Grid item xs={2} md={2} key={key}>
                     <Box sx={{ with: '100%', p: 2, background: '#333333', color: '#f2f2f2', maxHeight: 400, minHeight: 380, display: 'block' }}>
                         <img src={item.poster} style={{ display: 'block', margin: 'auto' }} width={220} height={250} />
                         <Typography variant="body1" component="p" sx={{ fontWeight: 'bold', mt: 2 }}>
-                            {item.title}
+                            {item.title.substring(0, 25)} {item.title.length > 25 ? '...' : ''}
                         </Typography>
                         <Typography variant="body1" component="p" style={{ display: 'inline-block' }} sx={{ mr: 2 }}>
                             Year: {item.year}
@@ -91,7 +70,7 @@ const HomePage = (props: any) => {
             {favoriteList.length > 0 && renderMovieList(favoriteList, 'favorite')}
             {watchedList.length > 0 && renderMovieList(watchedList, 'watched')}
 
-            {!favoriteList.length && !watchedList.length && <Box sx={{ width: '55%', margin: 'auto', mt: 3 }}><BaseAlert type='warning' message="We didn't found any watched or favorite movie list. To add, first search movie by title and select as Watched or Favorite" /></Box>}
+            {!favoriteList.length && !watchedList.length && <Box sx={{ width: '55%', margin: 'auto', mt: 3 }}><BaseAlert type='warning' message="We didn't find any watched or favorite movie list. To add, first search movie by title and select as Watched or Favorite" /></Box>}
             <BaseModal isOpen={isOpen} handleCloseModal={handleCloseModal}>
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={4}>

@@ -1,17 +1,7 @@
 import axios from "axios";
-import { baseRapidURL, baseUrl, authHeader, rapidAuthHeader } from "../config/config";
+import { baseUrl, authHeader } from "../config/config";
 import { MovieInterface } from "../_interfaces/MovieInfoInterface";
 
-const searchMovieByName = (name: string) => {
-    const options = {
-        method: 'GET',
-        url: baseRapidURL,
-        params: { s: name, r: 'json', page: '1' },
-        headers: rapidAuthHeader()
-    };
-
-    return axios.request(options);
-}
 const searchMovieByTitle = (title: string) => {
     const url = `${baseUrl}api/v1/search-movie/`;
     return axios.post(url, JSON.stringify({ title: title }), { headers: authHeader() });
@@ -28,7 +18,6 @@ const getMovieList = (query: string) => {
 }
 
 export const movieService = {
-    searchMovieByName,
     searchMovieByTitle,
     submitMovieData,
     getMovieList
